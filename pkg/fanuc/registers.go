@@ -26,9 +26,16 @@ const (
 	RegisterTypeVR                     // VR registers (for vision registers)
 )
 
+// PLCClientInterface defines the interface for PLC client implementations
+type PLCClientInterface interface {
+	ReadTag(tagName string, dataType byte) (interface{}, error)
+	WriteTag(tagName string, dataType byte, value interface{}) error
+	Close() error
+}
+
 // FanucClient extends the PLC client with Fanuc-specific functionality
 type FanucClient struct {
-	PLCClient *cpppo.PLCClient
+	PLCClient PLCClientInterface
 }
 
 // NewFanucClient creates a new Fanuc client
